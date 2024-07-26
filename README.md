@@ -1,8 +1,6 @@
 # Termux-Macro-Piano-Undawn
 
-## Deskripsi Proyek
-
-Proyek ini adalah sebuah skrip Python yang digunakan untuk memainkan file MIDI pada aplikasi piano di perangkat Android melalui kontrol ADB dan dijalankan di Termux. Skrip ini memetakan not-not MIDI ke koordinat layar yang sesuai untuk mengetuk tombol piano pada aplikasi.
+Proyek ini adalah sebuah skrip Python yang digunakan untuk memainkan file MIDI pada game Undawn di perangkat Android melalui kontrol ADB dan dijalankan di Termux. Skrip ini memetakan not-not MIDI ke koordinat layar yang sesuai untuk mengetuk tombol piano pada aplikasi.
 
 ### Fitur Utama
 - **Pemetaan Not**: Memetakan not piano ke koordinat layar yang sesuai.
