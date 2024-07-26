@@ -1,12 +1,8 @@
 # Termux-Macro-Piano-Undawn
 
-Berikut adalah deskripsi yang dapat digunakan untuk kode Anda di GitHub:
-
----
-
 ## Deskripsi Proyek
 
-Proyek ini adalah sebuah skrip Python yang digunakan untuk memainkan file MIDI pada aplikasi piano di perangkat Android melalui kontrol ADB. Skrip ini memetakan not-not MIDI ke koordinat layar yang sesuai untuk mengetuk tombol piano pada aplikasi.
+Proyek ini adalah sebuah skrip Python yang digunakan untuk memainkan file MIDI pada aplikasi piano di perangkat Android melalui kontrol ADB dan dijalankan di Termux. Skrip ini memetakan not-not MIDI ke koordinat layar yang sesuai untuk mengetuk tombol piano pada aplikasi.
 
 ### Fitur Utama
 - **Pemetaan Not**: Memetakan not piano ke koordinat layar yang sesuai.
