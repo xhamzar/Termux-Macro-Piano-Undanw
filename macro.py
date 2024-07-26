@@ -10,8 +10,8 @@ note_coordinates = {
     '2': (459, 900), 'e': (542, 1000), 'r': (658, 1000),
     '3': (727, 900), 't': (791, 1000), '4': (852, 900),
     'y': (907, 1000), '5': (983, 900), 'u': (1042, 1000),
-    'i': (1178, 1000), '6': (1250, 900), 'o': (1300, 1000), 
-    '7': (1354, 900), 'p': (1438, 1000), '[': (1556, 1000), 
+    'i': (1178, 1000), '6': (1250, 900), 'o': (1300, 1000),
+    '7': (1354, 900), 'p': (1438, 1000), '[': (1556, 1000),
     '8': (1638, 900), ']': (1696, 1000), '9': (1775, 900),
     '\\': (1838, 1000), '0': (1900, 900), '-': (1956, 1000),
     '=': (2080, 1000)
@@ -41,39 +41,36 @@ def map_piano_note_to_key(note):
 
     return '', ''
 
-def play_midi(path, pitch_modulation=10):
+def play_midi(path, pitch_modulation=10, tempo_factor=1.0):
     midi = mido.MidiFile(path)
     print("Tekan Enter untuk mulai memainkan. Tekan Ctrl+C untuk berhenti.")
     input("Tekan Enter untuk memulai...")
 
     curr_pitch = 'f2'
-    os.system(f"adb shell input tap {note_coordinates[curr_pitch][0]} {note_coordinates[curr_pitch][1]}")
+    os.system(f"adb shell input touchscreen tap {note_coordinates[curr_pitch][0]} {note_coordinates[curr_pitch][1]}")
 
     try:
-        notes_to_play = []
         for msg in midi.play():
             if msg.type == 'note_on' and msg.velocity != 0:
                 pitch, key = map_piano_note_to_key(msg.note + pitch_modulation)
                 if pitch and pitch in note_coordinates and curr_pitch != pitch:
-                    os.system(f"adb shell input tap {note_coordinates[pitch][0]} {note_coordinates[pitch][1]}")
+                    os.system(f"adb shell input touchscreen tap {note_coordinates[pitch][0]} {note_coordinates[pitch][1]}")
                     curr_pitch = pitch
                 if key and key in note_coordinates:
-                    notes_to_play.append(note_coordinates[key])
-                    print(f"Klik pada not di koordinat ({note_coordinates[key][0]}, {note_coordinates[key][1]})")
+                    os.system(f"adb shell input touchscreen tap {note_coordinates[key][0]} {note_coordinates[key][1]}")
+                    print(f"Menekan not di koordinat ({note_coordinates[key][0]}, {note_coordinates[key][1]})")
 
             if msg.time > 0:
-                for coord in notes_to_play:
-                    os.system(f"adb shell input tap {coord[0]} {coord[1]}")
-                notes_to_play.clear()
-                time.sleep(msg.time)  # Tambahkan waktu tidur berdasarkan waktu pesan MIDI
+                time.sleep(msg.time * tempo_factor)
 
     except KeyboardInterrupt:
         print("Pemutaran dihentikan oleh pengguna.")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python macro.py 'path'")
+    if len(sys.argv) < 2:
+        print("Usage: python macro.py 'path' [tempo_factor]")
         sys.exit(1)
 
     midi_path = sys.argv[1]
-    play_midi(midi_path, pitch_modulation=10)
+    tempo_factor = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
+    play_midi(midi_path, pitch_modulation=10, tempo_factor=tempo_factor)
